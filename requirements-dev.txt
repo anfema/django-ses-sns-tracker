@@ -1,0 +1,9 @@
+django>=2.2,<2.3
+psycopg2
+django_ses
+cryptography
+requests
+coverage
+flake8
+isort
+tox
