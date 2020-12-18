@@ -1,13 +1,13 @@
 # django-ses-sns-tracker
 A simple wrapper around django-ses to receive and persist sns event data.
 
-Records mail delivery in the `SESMailDelivery` model and updates the state if a matching SNS notification is received. 
+Records mail delivery in the `SESMailDelivery` model and updates the state if a matching SNS notification is received.
 
 
 ## Requirements
 
-- [Django](https://www.djangoproject.com) version 1.11, 2.1 or 2.2
-- A [PostgreSQL](https://www.postgresql.org/) Database 
+- [Django](https://www.djangoproject.com) version 2.2+
+- A [PostgreSQL](https://www.postgresql.org/) Database
 
 
 ## Quick start
@@ -29,24 +29,24 @@ Records mail delivery in the `SESMailDelivery` model and updates the state if a 
 
     ```
     EMAIL_BACKEND = 'ses_sns_tracker.backends.SESSNSTrackerBackend'
-    ``` 
+    ```
 
     This way all emails will be send via the Amazon SES API.
 
-5. (Optional) Send an email via the `SESMailDelivery` manager (doesn't require `SESSNSTrackerBackend` 
+5. (Optional) Send an email via the `SESMailDelivery` manager (doesn't require `SESSNSTrackerBackend`
     as the default mail backend):
 
-    ```python    
+    ```python
     from django.core.mail import EmailMessage
     from ses_sns_tracker.models import SESMailDelivery
-    
+
     message = EmailMessage(
         subject='email subject',
         body='email body',
         from_email='from@example.org',
         to=['recipient@example.org'],
     )
-    SESMailDelivery.objects.create_message(message)
+    SESMailDelivery.objects.create_message(message, fail_silently=False, fake_delivery=False)
     ```
 
 
@@ -54,7 +54,7 @@ Records mail delivery in the `SESMailDelivery` model and updates the state if a 
 
 - `SES_SNS_TRACKER_DEBUG_BACKEND = 'django.core.mail.backends.console.EmailBackend'`
 
-    Set mail backend to use for the actual mail delivery in `DEBUG` mode (`SESMailDelivery` objects 
+    Set mail backend to use for the actual mail delivery in `DEBUG` mode (`SESMailDelivery` objects
     will still be created).
     *Default: `None`*
 
@@ -70,7 +70,7 @@ Records mail delivery in the `SESMailDelivery` model and updates the state if a 
 
     ```bash
     pip install --upgrade pip setuptools wheel
-    ``` 
+    ```
 
 2. Install packages from `requirements-dev.txt`:
 
