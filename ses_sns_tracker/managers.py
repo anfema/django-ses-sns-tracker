@@ -13,7 +13,12 @@ if TYPE_CHECKING:
 
 
 class SESMailManager(models.Manager):
-    def create_message(self, message: EmailMessage, fail_silently: bool = False) -> List['SESMailDelivery']:
+    def create_message(
+        self,
+        message: EmailMessage,
+        fail_silently: bool = False,
+        fake_delivery: bool = False,
+    ) -> List['SESMailDelivery']:
         assert isinstance(message, EmailMessage)
         assert message.connection is None or isinstance(message.connection, SESBackend)
 
@@ -23,7 +28,9 @@ class SESMailManager(models.Manager):
         elif message.connection is None:
             message.connection = SESBackend()
 
-        message.send(fail_silently=fail_silently)
+        if not fake_delivery:
+            message.send(fail_silently=fail_silently)
+
         deliveries = list()
         for recipient in message.recipients():
             deliveries.append(self.model(
