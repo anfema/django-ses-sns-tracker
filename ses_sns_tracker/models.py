@@ -59,7 +59,6 @@ class SESMailDelivery(models.Model):
     objects = SESMailManager()
 
     class Meta:
-        ordering = ('-updated_at',)
         verbose_name = 'SES Mail Delivery'
         verbose_name_plural = 'SES Mail Deliveries'
 
