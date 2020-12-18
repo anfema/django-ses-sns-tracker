@@ -10,8 +10,7 @@ from django_ses import SESBackend
 
 
 class SESMailManager(models.Manager):
-    def create_message(self, message, fail_silently=False):
-        # type: (EmailMessage, bool) -> List[SESMailDelivery]
+    def create_message(self, message: EmailMessage, fail_silently: bool = False) -> List['SESMailDelivery']:
         assert isinstance(message, EmailMessage)
         assert message.connection is None or isinstance(message.connection, SESBackend)
 
@@ -63,27 +62,23 @@ class SESMailDelivery(models.Model):
         verbose_name_plural = 'SES Mail Deliveries'
 
     def __str__(self):
-        return '{} ({} {})'.format(self.recipient, self.get_state_display(), self.updated_at)
+        return f'{self.recipient} ({self.get_state_display()} {self.updated_at})'
 
     @property
-    def success(self):
-        # type: () -> Optional[bool]
+    def success(self) -> Optional[bool]:
         if self.state == self.STATE_SENT:
             return None
         return self.state == self.STATE_DELIVERED
 
     @property
-    def error_reason(self):
-        # type: () -> Optional[str]
+    def error_reason(self) -> Optional[str]:
         if self.state == self.STATE_BOUNCED:
             return self._bounce_reason()
         if self.state == self.STATE_COMPLAINT:
             return self._complaint_reason()
 
-    def _bounce_reason(self):
-        # type: () -> str
-        return '{}.{}'.format(self.state_data.get('bounceType'), self.state_data.get('bounceSubType'))
+    def _bounce_reason(self) -> str:
+        return f'{self.state_data.get("bounceType")}.{self.state_data.get("bounceSubType")}'
 
-    def _complaint_reason(self):
-        # type: () -> str
+    def _complaint_reason(self) -> str:
         return self.state_data.get('complaintFeedbackType')

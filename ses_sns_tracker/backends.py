@@ -7,12 +7,12 @@ from .models import SESMailDelivery
 
 
 class SESSNSTrackerBackend(SESBackend):
-    def send_messages(self, email_messages):
+    def send_messages(self, email_messages) -> int:
         if settings.DEBUG and getattr(settings, 'SES_SNS_TRACKER_DEBUG_BACKEND', None):
             debug_backend = import_string(settings.SES_SNS_TRACKER_DEBUG_BACKEND)
             num_sent = debug_backend().send_messages(email_messages)
         else:
-            num_sent = super(SESSNSTrackerBackend, self).send_messages(email_messages)
+            num_sent = super().send_messages(email_messages)
         deliveries = list()
 
         for message in email_messages:
