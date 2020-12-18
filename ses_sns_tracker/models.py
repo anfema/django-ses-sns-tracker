@@ -1,18 +1,12 @@
-# -*- coding: utf-8 -*-
-from __future__ import absolute_import, unicode_literals
+from typing import List, Optional
 
 from django.conf import settings
 from django.contrib.postgres.fields import JSONField
 from django.core.mail import EmailMessage
 from django.db import models
-from django.utils.encoding import python_2_unicode_compatible
 from django.utils.module_loading import import_string
 
 from django_ses import SESBackend
-
-
-if False:
-    from typing import List, Optional
 
 
 class SESMailManager(models.Manager):
@@ -38,7 +32,6 @@ class SESMailManager(models.Manager):
         return self.bulk_create(deliveries)
 
 
-@python_2_unicode_compatible
 class SESMailDelivery(models.Model):
     STATE_SENT = 0
     STATE_DELIVERED = 1

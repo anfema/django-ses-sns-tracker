@@ -1,6 +1,5 @@
 import base64
 import logging
-from builtins import bytes
 
 import requests
 from cryptography import x509
