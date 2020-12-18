@@ -1,34 +1,9 @@
-from typing import List, Optional
+from typing import Optional
 
-from django.conf import settings
 from django.contrib.postgres.fields import JSONField
-from django.core.mail import EmailMessage
 from django.db import models
-from django.utils.module_loading import import_string
 
-from django_ses import SESBackend
-
-
-class SESMailManager(models.Manager):
-    def create_message(self, message: EmailMessage, fail_silently: bool = False) -> List['SESMailDelivery']:
-        assert isinstance(message, EmailMessage)
-        assert message.connection is None or isinstance(message.connection, SESBackend)
-
-        if settings.DEBUG and getattr(settings, 'SES_SNS_TRACKER_DEBUG_BACKEND', None):
-            debug_backend = import_string(settings.SES_SNS_TRACKER_DEBUG_BACKEND)
-            message.connection = debug_backend()
-        elif message.connection is None:
-            message.connection = SESBackend()
-
-        message.send(fail_silently=fail_silently)
-        deliveries = list()
-        for recipient in message.recipients():
-            deliveries.append(self.model(
-                recipient=recipient,
-                message_id=message.extra_headers.get('message_id', 'NO_MESSAGE_ID'),
-                request_id=message.extra_headers.get('request_id', 'NO_RESULT_ID'),
-            ))
-        return self.bulk_create(deliveries)
+from .managers import SESMailManager
 
 
 class SESMailDelivery(models.Model):
