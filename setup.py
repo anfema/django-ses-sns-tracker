@@ -19,9 +19,8 @@ setuptools.setup(
     url="https://github.com/anfema/django-ses-sns-tracker",
     packages=setuptools.find_packages(),
     classifiers=[
-        "Framework :: Django :: 1.11",
-        "Framework :: Django :: 2.1",
         "Framework :: Django :: 2.2",
+        "Framework :: Django :: 3.1",
         "Programming Language :: Python :: 3",
         "Programming Language :: Python :: 3.6",
         "Programming Language :: Python :: 3.7",
