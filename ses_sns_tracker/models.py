@@ -21,7 +21,7 @@ class SESMailDelivery(models.Model):
     recipient = models.EmailField()
     message_id = models.CharField(max_length=128)
     request_id = models.CharField(max_length=128)
-    state = models.PositiveSmallIntegerField(choices=DELIVERY_STATES, default=0)
+    state = models.PositiveSmallIntegerField(choices=DELIVERY_STATES, default=STATE_SENT)
     state_data = JSONField(
         default=dict, blank=True,
         help_text='Amazon SNS event data (bounce/complaint/delivery object)',
