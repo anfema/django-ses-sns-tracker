@@ -9,7 +9,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="django-ses-sns-tracker",
-    version="1.1.0",
+    version="1.1.1a",
     author="anfema GmbH",
     author_email="contact@anfe.ma",
     description="",
