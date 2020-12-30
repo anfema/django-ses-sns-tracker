@@ -8,24 +8,35 @@ name: Create release and attach sdist
 
 jobs:
   build:
-    name: Upload Release Asset
+    name: Build sdist and create release draft
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
-      - name: Set up Python 3.7
+      - name: Set up Python 3.9
         uses: actions/setup-python@v2
         with:
-          python-version: 3.7
+          python-version: 3.9
       - name: Install dependencies
         run: |
-          python -m pip install --upgrade pip setuptools wheel
+          python -m pip install --upgrade pip
+          python -m pip install build
       - name: Build sdist
         run: |
-          python setup.py sdist
-      - name: Get version
+          python -m build --sdist
+      - name: Get version from tag
         id: get_version
         run: echo ::set-output name=VERSION::${GITHUB_REF#refs/tags/}
+      - name: Check package version (compare package version with tag)
+        id: check_package_version
+        shell: python
+        run: |
+          from packaging.version import parse
+          from setuptools.config import read_configuration
+          package_version = read_configuration('setup.cfg')['metadata']['version']
+          if parse(package_version) != parse('${{ steps.get_version.outputs.VERSION }}'):
+            print(f'version mismatch: {package_version} (package) vs ${{ steps.get_version.outputs.VERSION }} (tag)')
+            exit(1)
       - name: Create Release
         id: create_release
         uses: actions/create-release@v1
