@@ -4,3 +4,11 @@ requires = [
   "wheel",
 ]
 build-backend = "setuptools.build_meta"
+
+
+[tool.isort]
+line_length = 120
+lines_after_imports = 2
+known_first_party = ["ses_sns_tracker"]
+known_django = ["django"]
+sections = ["FUTURE", "STDLIB", "DJANGO", "THIRDPARTY", "FIRSTPARTY", "LOCALFOLDER"]
