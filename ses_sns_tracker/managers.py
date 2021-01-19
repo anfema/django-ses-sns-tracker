@@ -37,6 +37,6 @@ class SESMailManager(models.Manager):
                 recipient=recipient,
                 message_id=message.extra_headers.get('message_id', 'NO_MESSAGE_ID'),
                 request_id=message.extra_headers.get('request_id', 'NO_RESULT_ID'),
-                state=self.model.STATE_DELIVERED if fake_delivery else self.model.SESMailDelivery.STATE_SENT,
+                state=self.model.STATE_DELIVERED if fake_delivery else self.model.STATE_SENT,
             ))
         return self.bulk_create(deliveries)
