@@ -11,6 +11,7 @@
 __pycache__
 MANIFEST
 dist/
+build/
 
 # local settings overrides
 settings_local.py
