@@ -13,12 +13,13 @@ Including another URLconf
     1. Import the include() function: from django.conf.urls import url, include
     2. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
 """
-from django.conf.urls import url
 from django.contrib import admin
-from django_ses.views import handle_bounce
-from django.views.decorators.csrf import csrf_exempt
+from django.urls import path
+
+from ses_sns_tracker.views import SESSNSTrackerWebhookView
+
 
 urlpatterns = [
-    url(r'^admin/', admin.site.urls),
-    url(r'^ses/bounce/$', csrf_exempt(handle_bounce)),
+    path('admin/', admin.site.urls),
+    path('ses/bounce/', SESSNSTrackerWebhookView.as_view(), name='handle-event-webhook'),
 ]

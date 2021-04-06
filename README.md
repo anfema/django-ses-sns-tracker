@@ -14,9 +14,9 @@ Records mail delivery in the `SESMailDelivery` model and updates the state if a 
 
 1. Add `ses_sns_tracker` to your INSTALLED_APPS setting like this:
 
-    ```
+    ```python
     INSTALLED_APPS = [
-        ...
+        # ...
         'ses_sns_tracker',
     ]
     ```
@@ -25,7 +25,19 @@ Records mail delivery in the `SESMailDelivery` model and updates the state if a 
 
 3. [Setup](https://github.com/django-ses/django-ses#full-list-of-settings) `django-ses`
 
-4. (Optional) Use `ses_sns_tracker.backends.SESSNSTrackerBackend` as your default email backend:
+4. Add the webhook view to `urls.py` (use `SESSNSTrackerWebhookView` instead of `SESEventWebhookView` from `django_ses`):
+
+    ```python
+    from ses_sns_tracker.views import SESSNSTrackerWebhookView
+
+    urlpatterns = [
+        # ...
+        path('ses-events/', SESSNSTrackerWebhookView.as_view(), name='handle-event-webhook'),
+        # ...
+    ]
+    ```
+
+5. (Optional) Use `ses_sns_tracker.backends.SESSNSTrackerBackend` as your default email backend:
 
     ```
     EMAIL_BACKEND = 'ses_sns_tracker.backends.SESSNSTrackerBackend'
@@ -33,7 +45,7 @@ Records mail delivery in the `SESMailDelivery` model and updates the state if a 
 
     This way all emails will be send via the Amazon SES API.
 
-5. (Optional) Send an email via the `SESMailDelivery` manager (doesn't require `SESSNSTrackerBackend`
+6. (Optional) Send an email via the `SESMailDelivery` manager (doesn't require `SESSNSTrackerBackend`
     as the default mail backend):
 
     ```python
@@ -43,8 +55,8 @@ Records mail delivery in the `SESMailDelivery` model and updates the state if a 
     message = EmailMessage(
         subject='email subject',
         body='email body',
-        from_email='from@example.org',
-        to=['recipient@example.org'],
+        from_email='sender@example.com',
+        to=['recipient@example.com'],
     )
     SESMailDelivery.objects.create_message(message, fail_silently=False, fake_delivery=False)
     ```

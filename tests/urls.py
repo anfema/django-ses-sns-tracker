@@ -1,9 +1,8 @@
 from django.urls import path
-from django.views.decorators.csrf import csrf_exempt
 
-from django_ses.views import handle_bounce
+from ses_sns_tracker.views import SESSNSTrackerWebhookView
 
 
 urlpatterns = [
-    path('ses/bounce/', csrf_exempt(handle_bounce), name='django_ses_bounce'),
+    path('ses/bounce/', SESSNSTrackerWebhookView.as_view(), name='handle-event-webhook'),
 ]

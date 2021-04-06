@@ -1,11 +1,14 @@
 from django.urls import path
-from django.views.decorators.csrf import csrf_exempt
 
-from django_ses.views import handle_bounce
+from .views import SESSNSTrackerWebhookView
 
+
+"""
+URLConf left for compatibility. New setups should use the view directly in their own URLConf.
+"""
 
 app_name = 'ses_sns_tracker'
 
 urlpatterns = [
-    path('bounce/', csrf_exempt(handle_bounce)),
+    path('bounce/', SESSNSTrackerWebhookView.as_view(), name='handle-event-webhook'),
 ]

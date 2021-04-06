@@ -7,14 +7,15 @@ from cryptography.exceptions import InvalidSignature
 from cryptography.hazmat.backends import default_backend
 from cryptography.hazmat.primitives import hashes
 from cryptography.hazmat.primitives.asymmetric import padding
-from django_ses.utils import BounceMessageVerifier
+
+from django_ses.utils import EventMessageVerifier
 
 
 logger = logging.getLogger(__name__)
 
 
-class CryptographyBounceMessageVerifier(BounceMessageVerifier):
-    """Custom BounceMessageVerifier using cryptography instead of M2Crypto"""
+class CryptographyEventMessageVerifier(EventMessageVerifier):
+    """Custom EventMessageVerifier using cryptography instead of M2Crypto"""
 
     def is_verified(self):
         """Verifies an SES bounce message."""
@@ -76,7 +77,7 @@ class CryptographyBounceMessageVerifier(BounceMessageVerifier):
         return self._certificate
 
 
-def verify_bounce_message(msg):
+def cryptography_verify_event_message(notification):
     """Verify an SES/SNS bounce notification message."""
-    verifier = CryptographyBounceMessageVerifier(msg)
+    verifier = CryptographyEventMessageVerifier(notification)
     return verifier.is_verified()
