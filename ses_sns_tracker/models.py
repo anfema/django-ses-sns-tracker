@@ -1,6 +1,5 @@
 from typing import Optional
 
-from django.contrib.postgres.fields import JSONField
 from django.db import models
 
 from .managers import SESMailManager
@@ -22,11 +21,11 @@ class SESMailDelivery(models.Model):
     message_id = models.CharField(max_length=128)
     request_id = models.CharField(max_length=128)
     state = models.PositiveSmallIntegerField(choices=DELIVERY_STATES, default=STATE_SENT)
-    state_data = JSONField(
+    state_data = models.JSONField(
         default=dict, blank=True,
         help_text='Amazon SNS event data (bounce/complaint/delivery object)',
     )
-    mail_data = JSONField(default=dict, help_text='Amazon SNS mail data', blank=True)
+    mail_data = models.JSONField(default=dict, help_text='Amazon SNS mail data', blank=True)
     sent_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 

@@ -7,9 +7,9 @@ from .models import SESMailDelivery
 
 
 # our signals
-recipients_bounce = Signal(providing_args=['recipients', 'bounce_obj'])
-recipients_complaint = Signal(providing_args=['recipients', 'complaint_obj'])
-recipients_delivery = Signal(providing_args=['recipients', 'delivery_obj'])
+recipients_bounce = Signal()
+recipients_complaint = Signal()
+recipients_delivery = Signal()
 
 
 # handle django-ses signals
