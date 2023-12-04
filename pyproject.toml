@@ -17,7 +17,7 @@ packages = [
 
 [tool.poetry.dependencies]
 python = "^3.8"
-django-ses = "*"
+django-ses = {version = "^3.5.2", extras = ["events"]}
 requests = "*"
 cryptography = { version = "*", optional = true }
 
