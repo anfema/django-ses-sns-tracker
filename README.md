@@ -6,7 +6,7 @@ Records mail delivery in the `SESMailDelivery` model and updates the state if a 
 
 ## Requirements
 
-- [Django](https://www.djangoproject.com) version 2.2+
+- [Django](https://www.djangoproject.com) version 3.2+
 - A [PostgreSQL](https://www.postgresql.org/) Database
 
 
@@ -84,10 +84,10 @@ Records mail delivery in the `SESMailDelivery` model and updates the state if a 
     pip install --upgrade pip setuptools wheel
     ```
 
-2. Install packages from `requirements-dev.txt`:
+2. Install development dependencies:
 
     ```bash
-    pip install -r requirements-dev.txt
+    poetry install
     ```
 
 3. (Optional) Override settings in `example_proj/settings_local.py` & `tests/settings_local.py` as required.

@@ -8,7 +8,7 @@ readme = "README.md"
 repository = "https://github.com/anfema/django-ses-sns-tracker"
 classifiers = [
     "Framework :: Django :: 3.2",
-    "Framework :: Django :: 4.0",
+    "Framework :: Django :: 4.2",
     "Operating System :: OS Independent",
 ]
 packages = [
