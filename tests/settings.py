@@ -4,6 +4,7 @@ Use `settings_local.py` to override any settings.
 """
 
 import os
+from contextlib import suppress
 
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
@@ -95,7 +96,5 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-try:
-    from .settings_local import *  # NOQA
-except ImportError:
-    pass
+with suppress(ImportError):
+    from .settings_local import *  # noqa: F403
