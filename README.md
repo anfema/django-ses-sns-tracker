@@ -25,14 +25,14 @@ Records mail delivery in the `SESMailDelivery` model and updates the state if a 
 
 3. [Setup](https://github.com/django-ses/django-ses#full-list-of-settings) `django-ses`
 
-4. Add the webhook view to `urls.py` (use `SESSNSTrackerWebhookView` instead of `SESEventWebhookView` from `django_ses`):
+4. Add the webhook view to `urls.py`:
 
     ```python
-    from ses_sns_tracker.views import SESSNSTrackerWebhookView
+    from django_ses.views import SESEventWebhookView
 
     urlpatterns = [
         # ...
-        path('ses-events/', SESSNSTrackerWebhookView.as_view(), name='handle-event-webhook'),
+        path('ses-events/', SESEventWebhookView.as_view(), name='handle-event-webhook'),
         # ...
     ]
     ```
@@ -43,7 +43,7 @@ Records mail delivery in the `SESMailDelivery` model and updates the state if a 
     EMAIL_BACKEND = 'ses_sns_tracker.backends.SESSNSTrackerBackend'
     ```
 
-    This way all emails will be send via the Amazon SES API.
+    This way all emails will be sent via the Amazon SES API.
 
 6. (Optional) Send an email via the `SESMailDelivery` manager (doesn't require `SESSNSTrackerBackend`
     as the default mail backend):
@@ -69,11 +69,6 @@ Records mail delivery in the `SESMailDelivery` model and updates the state if a 
     Set mail backend to use for the actual mail delivery in `DEBUG` mode (`SESMailDelivery` objects
     will still be created).
     *Default: `None`*
-
-- `SES_SNS_TRACKER_USE_CRYPTOGRAPHY = True`
-
-    Use `crypthography` instead of `M2Crypto` to verify the signature of messages received from SNS.
-    *Default: `True`*
 
 
 ## Development setup

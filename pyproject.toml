@@ -19,10 +19,10 @@ packages = [
 python = "^3.8"
 django-ses = {version = "^3.5.2", extras = ["events"]}
 requests = "*"
-cryptography = { version = "*", optional = true }
+typing_extensions = "*"
 
 [tool.poetry.extras]
-cryptography = ["cryptography"]
+cryptography = []  # deprecated; `cryptography` is already a dependency of `django-ses[events]`
 
 [tool.poetry.group.dev.dependencies]
 Django = "*"
