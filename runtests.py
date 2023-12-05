@@ -9,14 +9,14 @@ import sys
 def run_tests():
     # Setup env to use the test settings
     os.environ.setdefault("DJANGO_SETTINGS_MODULE", "tests.settings")
-    from django.conf import settings
+    from django.conf import settings  # isort: skip
 
     # Call django.setup() to initialize the application registry and other bits:
-    import django
+    import django  # isort: skip
     django.setup()
 
     # Instantiate a test runner
-    from django.test.utils import get_runner
+    from django.test.utils import get_runner  # isort: skip
     TestRunner = get_runner(settings)
 
     # Run tests and return the results.
