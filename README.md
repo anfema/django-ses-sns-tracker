@@ -73,16 +73,12 @@ Records mail delivery in the `SESMailDelivery` model and updates the state if a 
 
 ## Development setup
 
-1. Upgrade packaging tools:
-
-    ```bash
-    pip install --upgrade pip setuptools wheel
-    ```
-
-2. Install development dependencies:
+1. Install development dependencies:
 
     ```bash
     poetry install
     ```
+
+2. Install the [ruff extension](https://docs.astral.sh/ruff/integrations/) for code linting & formatting in your IDE.
 
 3. (Optional) Override settings in `example_proj/settings_local.py` & `tests/settings_local.py` as required.
