@@ -18,11 +18,11 @@ class SESMailManager(models.Manager):
         message: EmailMessage,
         fail_silently: bool = False,
         fake_delivery: bool = False,
-    ) -> List['SESMailDelivery']:
+    ) -> List["SESMailDelivery"]:
         assert isinstance(message, EmailMessage)
         assert message.connection is None or isinstance(message.connection, SESBackend)
 
-        if settings.DEBUG and getattr(settings, 'SES_SNS_TRACKER_DEBUG_BACKEND', None):
+        if settings.DEBUG and getattr(settings, "SES_SNS_TRACKER_DEBUG_BACKEND", None):
             debug_backend = import_string(settings.SES_SNS_TRACKER_DEBUG_BACKEND)
             message.connection = debug_backend()
         elif message.connection is None:
@@ -33,10 +33,12 @@ class SESMailManager(models.Manager):
 
         deliveries = list()
         for recipient in message.recipients():
-            deliveries.append(self.model(
-                recipient=recipient,
-                message_id=message.extra_headers.get('message_id', 'NO_MESSAGE_ID'),
-                request_id=message.extra_headers.get('request_id', 'NO_RESULT_ID'),
-                state=self.model.STATE_DELIVERED if fake_delivery else self.model.STATE_SENT,
-            ))
+            deliveries.append(
+                self.model(
+                    recipient=recipient,
+                    message_id=message.extra_headers.get("message_id", "NO_MESSAGE_ID"),
+                    request_id=message.extra_headers.get("request_id", "NO_RESULT_ID"),
+                    state=self.model.STATE_DELIVERED if fake_delivery else self.model.STATE_SENT,
+                )
+            )
         return self.bulk_create(deliveries)

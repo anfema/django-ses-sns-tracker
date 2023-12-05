@@ -14,10 +14,11 @@ recipients_delivery = Signal()
 
 # handle django-ses signals
 
+
 @receiver(bounce_received)
 def bounce_handler(sender, mail_obj, bounce_obj, raw_message, **kwargs):
-    recipients = [r['emailAddress'] for r in bounce_obj['bouncedRecipients']]
-    SESMailDelivery.objects.filter(message_id=mail_obj['messageId'], recipient__in=recipients).update(
+    recipients = [r["emailAddress"] for r in bounce_obj["bouncedRecipients"]]
+    SESMailDelivery.objects.filter(message_id=mail_obj["messageId"], recipient__in=recipients).update(
         state=SESMailDelivery.STATE_BOUNCED,
         state_data=bounce_obj,
         mail_data=mail_obj,
@@ -28,8 +29,8 @@ def bounce_handler(sender, mail_obj, bounce_obj, raw_message, **kwargs):
 
 @receiver(complaint_received)
 def complaint_handler(sender, mail_obj, complaint_obj, raw_message, **kwargs):
-    recipients = [r['emailAddress'] for r in complaint_obj['complainedRecipients']]
-    SESMailDelivery.objects.filter(message_id=mail_obj['messageId'], recipient__in=recipients).update(
+    recipients = [r["emailAddress"] for r in complaint_obj["complainedRecipients"]]
+    SESMailDelivery.objects.filter(message_id=mail_obj["messageId"], recipient__in=recipients).update(
         state=SESMailDelivery.STATE_COMPLAINT,
         state_data=complaint_obj,
         mail_data=mail_obj,
@@ -40,8 +41,8 @@ def complaint_handler(sender, mail_obj, complaint_obj, raw_message, **kwargs):
 
 @receiver(delivery_received)
 def delivery_handler(sender, mail_obj, delivery_obj, raw_message, **kwargs):
-    recipients = delivery_obj['recipients']
-    SESMailDelivery.objects.filter(message_id=mail_obj['messageId'], recipient__in=recipients).update(
+    recipients = delivery_obj["recipients"]
+    SESMailDelivery.objects.filter(message_id=mail_obj["messageId"], recipient__in=recipients).update(
         state=SESMailDelivery.STATE_DELIVERED,
         state_data=delivery_obj,
         mail_data=mail_obj,

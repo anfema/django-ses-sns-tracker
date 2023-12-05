@@ -20,6 +20,6 @@ from django_ses.views import SESEventWebhookView
 
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('ses/bounce/', SESEventWebhookView.as_view(), name='handle-event-webhook'),
+    path("admin/", admin.site.urls),
+    path("ses/bounce/", SESEventWebhookView.as_view(), name="handle-event-webhook"),
 ]

@@ -11,10 +11,10 @@ class SESMailDelivery(models.Model):
     STATE_BOUNCED = 2
     STATE_COMPLAINT = 3
     DELIVERY_STATES = (
-        (STATE_SENT, 'Sent'),
-        (STATE_DELIVERED, 'Delivered'),
-        (STATE_BOUNCED, 'Bounced'),
-        (STATE_COMPLAINT, 'Complaint'),
+        (STATE_SENT, "Sent"),
+        (STATE_DELIVERED, "Delivered"),
+        (STATE_BOUNCED, "Bounced"),
+        (STATE_COMPLAINT, "Complaint"),
     )
 
     recipient = models.EmailField()
@@ -22,21 +22,22 @@ class SESMailDelivery(models.Model):
     request_id = models.CharField(max_length=128)
     state = models.PositiveSmallIntegerField(choices=DELIVERY_STATES, default=STATE_SENT)
     state_data = models.JSONField(
-        default=dict, blank=True,
-        help_text='Amazon SNS event data (bounce/complaint/delivery object)',
+        default=dict,
+        blank=True,
+        help_text="Amazon SNS event data (bounce/complaint/delivery object)",
     )
-    mail_data = models.JSONField(default=dict, help_text='Amazon SNS mail data', blank=True)
+    mail_data = models.JSONField(default=dict, help_text="Amazon SNS mail data", blank=True)
     sent_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
     objects = SESMailManager()
 
     class Meta:
-        verbose_name = 'SES Mail Delivery'
-        verbose_name_plural = 'SES Mail Deliveries'
+        verbose_name = "SES Mail Delivery"
+        verbose_name_plural = "SES Mail Deliveries"
 
     def __str__(self):
-        return f'{self.recipient} ({self.get_state_display()} {self.updated_at})'
+        return f"{self.recipient} ({self.get_state_display()} {self.updated_at})"
 
     @property
     def success(self) -> Optional[bool]:
@@ -55,4 +56,4 @@ class SESMailDelivery(models.Model):
         return f'{self.state_data.get("bounceType")}.{self.state_data.get("bounceSubType")}'
 
     def _complaint_reason(self) -> str:
-        return self.state_data.get('complaintFeedbackType')
+        return self.state_data.get("complaintFeedbackType")
