@@ -30,6 +30,8 @@ psycopg2 = "*"
 coverage = "*"
 tox = "*"
 boto3 = "^1.33.6"  # required speed up dependency resolution
+pre-commit = "^3.5.0"
+ruff = "0.1.7"  # keep in sync with `.pre-commit-config.yaml` & `.github/workflows/code_style.yml`
 
 [build-system]
 requires = ["poetry-core"]
