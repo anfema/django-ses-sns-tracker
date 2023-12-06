@@ -31,7 +31,7 @@ class SESMailManager(models.Manager):
         if not fake_delivery:
             message.send(fail_silently=fail_silently)
 
-        deliveries = list()
+        deliveries = []
         for recipient in message.recipients():
             deliveries.append(
                 self.model(

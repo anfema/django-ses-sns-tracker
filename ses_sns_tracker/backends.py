@@ -13,7 +13,7 @@ class SESSNSTrackerBackend(SESBackend):
             num_sent = debug_backend().send_messages(email_messages)
         else:
             num_sent = super().send_messages(email_messages)
-        deliveries = list()
+        deliveries = []
 
         for message in email_messages:
             for recipient in message.recipients():

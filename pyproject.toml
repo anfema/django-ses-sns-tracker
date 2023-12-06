@@ -57,6 +57,20 @@ select = [
     "SIM",
     # isort
     "I",
+    # flake8-django
+    #"DJ",
+    # flake8-comprehensions
+    "C4",
+    # flake8-2020
+    "YTT",
+    # flake8-gettext
+    "INT",
+    # flake8-datetimez
+    "DTZ",
+    # flake8-debugger
+    "T10",
+    # flake8-print
+    "T20",
 ]
 
 [tool.ruff.format]
