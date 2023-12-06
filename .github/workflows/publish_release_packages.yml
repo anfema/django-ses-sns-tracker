@@ -1,0 +1,44 @@
+on:
+  release:
+    types: [published]
+
+name: Upload packages to PyPI and GitHub release on release publish
+jobs:
+  upload-packages:
+    name: Create release-artifacts
+    runs-on: ubuntu-latest
+    permissions:
+      # IMPORTANT: this permission is mandatory for trusted publishing
+      id-token: write
+      # required by ncipollo/release-action@v1
+      contents: write
+    steps:
+      - name: Checkout the repository
+        uses: actions/checkout@v3
+      - name: Set up Python 3.12
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.12'
+      - name: Install build dependencies
+        run: |
+          pipx install poetry
+      - name: Check package version (compare package version with tag)
+        run: |
+          if [[ ! "$(poetry version -s)" = "${{ github.event.release.tag_name}}" ]]; then
+            echo "version mismatch: $(poetry version -s) (package) vs ${{ github.event.release.tag_name }} (tag)"
+            exit 1
+          fi
+      - name: Build sdist & wheel
+        run: |
+          poetry build
+      - name: Update release
+        uses: ncipollo/release-action@v1
+        with:
+          allowUpdates: true
+          omitBodyDuringUpdate: true
+          omitNameDuringUpdate: true
+          omitPrereleaseDuringUpdate: true
+          artifacts: "dist/*"
+      - name: Publish python distribution to PyPI
+        uses: pypa/gh-action-pypi-publish@release/v1
+        # uses trusted publishing (no username & password required)

@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "django-ses-sns-tracker"
-version = "3.0.0"
+version = "4.0.0rc1"
 description = "Simple wrapper around django-ses to receive and persist sns event data"
 authors = ["anfema GmbH <contact@anfe.ma>"]
 license = "MIT"
