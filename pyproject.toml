@@ -1,14 +1,85 @@
-[build-system]
-requires = [
-  "setuptools >= 40.9.0",
-  "wheel",
+[tool.poetry]
+name = "django-ses-sns-tracker"
+version = "4.0.0rc1"
+description = "Simple wrapper around django-ses to receive and persist sns event data"
+authors = ["anfema GmbH <contact@anfe.ma>"]
+license = "MIT"
+readme = "README.md"
+repository = "https://github.com/anfema/django-ses-sns-tracker"
+classifiers = [
+    "Framework :: Django :: 3.2",
+    "Framework :: Django :: 4.2",
+    "Operating System :: OS Independent",
 ]
-build-backend = "setuptools.build_meta"
+packages = [
+    { include = "ses_sns_tracker" },
+]
 
+[tool.poetry.dependencies]
+python = "^3.8"  # update [tool.ruff] section too
+django-ses = {version = "^3.5.2", extras = ["events"]}
+requests = "*"
+typing_extensions = "*"
 
-[tool.isort]
-line_length = 120
-lines_after_imports = 2
-known_first_party = ["ses_sns_tracker"]
-known_django = ["django"]
-sections = ["FUTURE", "STDLIB", "DJANGO", "THIRDPARTY", "FIRSTPARTY", "LOCALFOLDER"]
+[tool.poetry.extras]
+cryptography = []  # deprecated; `cryptography` is already a dependency of `django-ses[events]`
+
+[tool.poetry.group.dev.dependencies]
+Django = "*"
+psycopg2 = "*"
+coverage = "*"
+tox = "*"
+boto3 = "^1.33.6"  # required speed up dependency resolution
+pre-commit = "^3.5.0"
+ruff = "0.1.7"  # keep in sync with `.pre-commit-config.yaml` & `.github/workflows/code_style.yml`
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+# linting & formatter
+[tool.ruff]
+target-version = "py38"
+line-length = 120
+indent-width = 4
+
+[tool.ruff.lint]
+select = [
+    # pycodestyle
+    "E",
+    # Pyflakes
+    "F",
+    # pyupgrade
+    "UP",
+    # flake8-bugbear
+    "B",
+    # flake8-simplify
+    "SIM",
+    # isort
+    "I",
+    # flake8-django
+    #"DJ",
+    # flake8-comprehensions
+    "C4",
+    # flake8-2020
+    "YTT",
+    # flake8-gettext
+    "INT",
+    # flake8-datetimez
+    "DTZ",
+    # flake8-debugger
+    "T10",
+    # flake8-print
+    "T20",
+]
+
+[tool.ruff.format]
+line-ending = "lf"
+
+[tool.ruff.lint.isort]
+lines-after-imports = 2
+section-order =["future", "standard-library", "django", "third-party", "first-party", "local-folder"]
+
+[tool.ruff.lint.isort.sections]
+# Group all Django imports into a separate section.
+"django" = ["django"]

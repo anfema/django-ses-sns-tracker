@@ -1,9 +1,0 @@
-django
-psycopg2
-django_ses
-cryptography
-requests
-coverage
-flake8
-isort
-tox

@@ -16,10 +16,10 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 
-from ses_sns_tracker.views import SESSNSTrackerWebhookView
+from django_ses.views import SESEventWebhookView
 
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('ses/bounce/', SESSNSTrackerWebhookView.as_view(), name='handle-event-webhook'),
+    path("admin/", admin.site.urls),
+    path("ses/bounce/", SESEventWebhookView.as_view(), name="handle-event-webhook"),
 ]

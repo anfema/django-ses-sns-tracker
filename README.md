@@ -6,7 +6,7 @@ Records mail delivery in the `SESMailDelivery` model and updates the state if a 
 
 ## Requirements
 
-- [Django](https://www.djangoproject.com) version 2.2+
+- [Django](https://www.djangoproject.com) version 3.2+
 - A [PostgreSQL](https://www.postgresql.org/) Database
 
 
@@ -25,14 +25,14 @@ Records mail delivery in the `SESMailDelivery` model and updates the state if a 
 
 3. [Setup](https://github.com/django-ses/django-ses#full-list-of-settings) `django-ses`
 
-4. Add the webhook view to `urls.py` (use `SESSNSTrackerWebhookView` instead of `SESEventWebhookView` from `django_ses`):
+4. Add the webhook view to `urls.py`:
 
     ```python
-    from ses_sns_tracker.views import SESSNSTrackerWebhookView
+    from django_ses.views import SESEventWebhookView
 
     urlpatterns = [
         # ...
-        path('ses-events/', SESSNSTrackerWebhookView.as_view(), name='handle-event-webhook'),
+        path('ses-events/', SESEventWebhookView.as_view(), name='handle-event-webhook'),
         # ...
     ]
     ```
@@ -43,7 +43,7 @@ Records mail delivery in the `SESMailDelivery` model and updates the state if a 
     EMAIL_BACKEND = 'ses_sns_tracker.backends.SESSNSTrackerBackend'
     ```
 
-    This way all emails will be send via the Amazon SES API.
+    This way all emails will be sent via the Amazon SES API.
 
 6. (Optional) Send an email via the `SESMailDelivery` manager (doesn't require `SESSNSTrackerBackend`
     as the default mail backend):
@@ -70,24 +70,15 @@ Records mail delivery in the `SESMailDelivery` model and updates the state if a 
     will still be created).
     *Default: `None`*
 
-- `SES_SNS_TRACKER_USE_CRYPTOGRAPHY = True`
-
-    Use `crypthography` instead of `M2Crypto` to verify the signature of messages received from SNS.
-    *Default: `True`*
-
 
 ## Development setup
 
-1. Upgrade packaging tools:
+1. Install development dependencies:
 
     ```bash
-    pip install --upgrade pip setuptools wheel
+    poetry install
     ```
 
-2. Install packages from `requirements-dev.txt`:
-
-    ```bash
-    pip install -r requirements-dev.txt
-    ```
+2. Install the [ruff extension](https://docs.astral.sh/ruff/integrations/) for code linting & formatting in your IDE.
 
 3. (Optional) Override settings in `example_proj/settings_local.py` & `tests/settings_local.py` as required.
