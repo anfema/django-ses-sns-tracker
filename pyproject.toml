@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "django-ses-sns-tracker"
-version = "4.0.0rc1"
+version = "4.0.0"
 description = "Simple wrapper around django-ses to receive and persist sns event data"
 authors = ["anfema GmbH <contact@anfe.ma>"]
 license = "MIT"
@@ -17,7 +17,7 @@ packages = [
 
 [tool.poetry.dependencies]
 python = "^3.8"  # update [tool.ruff] section too
-django-ses = {version = "^3.5.2", extras = ["events"]}
+django-ses = { version = "^3.5.2", extras = ["events"] }
 requests = "*"
 typing_extensions = "*"
 
@@ -78,7 +78,7 @@ line-ending = "lf"
 
 [tool.ruff.lint.isort]
 lines-after-imports = 2
-section-order =["future", "standard-library", "django", "third-party", "first-party", "local-folder"]
+section-order = ["future", "standard-library", "django", "third-party", "first-party", "local-folder"]
 
 [tool.ruff.lint.isort.sections]
 # Group all Django imports into a separate section.
